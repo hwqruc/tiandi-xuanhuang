@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<title>天地玄黄 — 中国传统五色</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ink bloom transition -->
+<div class="ink-bloom" id="inkBloom"></div>
+
+<!-- tap hint -->
+<div class="tap-hint" id="tapHint">轻点画面 · 展开故事</div>
+
+<!-- starfield -->
+<canvas id="starfieldCanvas"></canvas>
+
+<!-- LIGHT BURST -->
+<div class="light-burst" id="lightBurst"><div class="burst-inner"></div></div>
+
+<!-- STAR MAP -->
+<div class="star-map" id="starMap">
+  <div class="opening-text" id="opening">
+    <img src="assets/opening.png" alt="天地玄黄 宇宙洪荒" class="hand-img">
+    <span class="fallback" style="display:none">天地玄黄 宇宙洪荒</span>
+  </div>
+
+  <div class="main-star zhenxing" data-family="huang">
+    <div class="glow"></div><div class="rays"></div><div class="core"></div>
+  </div>
+  <div class="star-label zhenxing">
+    <img src="assets/stars/zhenxing.png" alt="鎮星" class="hand-img"><span class="fallback" style="display:none">鎮星</span>
+  </div>
+
+  <div class="main-star suixing" data-family="qing">
+    <div class="glow"></div><div class="rays"></div><div class="core"></div>
+  </div>
+  <div class="star-label suixing">
+    <img src="assets/stars/suixing.png" alt="歲星" class="hand-img"><span class="fallback" style="display:none">歲星</span>
+  </div>
+
+  <div class="main-star yinghuo" data-family="chi">
+    <div class="glow"></div><div class="rays"></div><div class="core"></div>
+  </div>
+  <div class="star-label yinghuo">
+    <img src="assets/stars/yinghuo.png" alt="熒惑" class="hand-img"><span class="fallback" style="display:none">熒惑</span>
+  </div>
+
+  <div class="main-star taibai" data-family="bai">
+    <div class="glow"></div><div class="rays"></div><div class="core"></div>
+  </div>
+  <div class="star-label taibai">
+    <img src="assets/stars/taibai.png" alt="太白" class="hand-img"><span class="fallback" style="display:none">太白</span>
+  </div>
+
+  <div class="main-star chenxing" data-family="hei">
+    <div class="glow"></div><div class="rays"></div><div class="core"></div>
+  </div>
+  <div class="star-label chenxing">
+    <img src="assets/stars/chenxing.png" alt="辰星" class="hand-img"><span class="fallback" style="display:none">辰星</span>
+  </div>
+</div>
+
+<!-- QING -->
+<div class="color-family" id="fam-qing" style="color:rgba(0,0,0,.4)">
+  <div class="page-stack" id="stack-qing">
+    <div class="color-page dark-text current" data-color="#8DD4E8" data-name="tianqing" style="background:#8DD4E8;z-index:3">
+      <img class="name-img hand-img" src="assets/names/tianqing.png" alt="天青">
+      <span class="fallback" style="display:none;font-size:clamp(2.5rem,5vw,4rem);letter-spacing:.12em;font-weight:700">天青</span>
+      <img class="poem-img hand-img" src="assets/poems/tianqing.png" alt="">
+      <span class="fallback" style="display:none;font-size:clamp(.8rem,1.3vw,1.1rem);opacity:.55;letter-spacing:.1em">雨過天青雲破處 這般顏色做將來</span>
+      <div class="color-meta">震 ☳ · 木 · 東 · 春</div><div class="color-hex">#8DD4E8</div>
+    </div>
+    <div class="color-page light-text below" data-color="#1685A9" data-name="shiqing" style="background:#1685A9;z-index:1">
+      <img class="name-img hand-img" src="assets/names/shiqing.png" alt="石青">
+      <span class="fallback" style="display:none;font-size:clamp(2.5rem,5vw,4rem);letter-spacing:.12em;font-weight:700">石青</span>
+      <img class="poem-img hand-img" src="assets/poems/shiqing.png" alt="">
+      <span class="fallback" style="display:none;font-size:clamp(.8rem,1.3vw,1.1rem);opacity:.55;letter-spacing:.1em">江流天地外 山色有無中</span>
+      <div class="color-meta">震 ☳ · 木 · 東 · 春</div><div class="color-hex">#1685A9</div>
+    </div>
+    <div class="color-page dark-text below" data-color="#99BD7E" data-name="liulv" style="background:#99BD7E;z-index:1">
+      <img class="name-img hand-img" src="assets/names/liulv.png" alt="柳綠">
+      <span class="fallback" style="display:none;font-size:clamp(2.5rem,5vw,4rem);letter-spacing:.12em;font-weight:700">柳綠</span>
+      <img class="poem-img hand-img" src="assets/poems/liulv.png" alt="">
+      <span class="fallback" style="display:none;font-size:clamp(.8rem,1.3vw,1.1rem);opacity:.55;letter-spacing:.1em">渭城朝雨浥輕塵 客舍青青柳色新</span>
+      <div class="color-meta">震 ☳ · 木 · 東 · 春</div><div class="color-hex">#99BD7E</div>
+    </div>
+  </div>
+  <div class="color-palette" id="palette-qing"></div>
+  <button class="back-btn dark-text" data-action="back" style="color:#2b1b17">←</button>
+</div>
+
+<!-- CHI -->
+<div class="color-family" id="fam-chi" style="color:rgba(255,255,255,.5)">
+  <div class="page-stack" id="stack-chi">
+    <div class="color-page light-text current" data-color="#FF4A42" data-name="zhusha" style="background:#FF4A42;z-index:3">
+      <img class="name-img hand-img" src="assets/names/zhusha.png" alt="硃砂">
+      <span class="fallback" style="display:none;font-size:clamp(2.5rem,5vw,4rem);letter-spacing:.12em;font-weight:700">硃砂</span>
+      <img class="poem-img hand-img" src="assets/poems/zhusha.png" alt="">
+      <span class="fallback" style="display:none;font-size:clamp(.8rem,1.3vw,1.1rem);opacity:.55;letter-spacing:.1em">人生自古誰無死 留取丹心照汗青</span>
+      <div class="color-meta">離 ☲ · 火 · 南 · 夏</div><div class="color-hex">#FF4A42</div>
+    </div>
+    <div class="color-page light-text below" data-color="#C03B4B" data-name="yanzhi" style="background:#C03B4B;z-index:1">
+      <img class="name-img hand-img" src="assets/names/yanzhi.png" alt="胭脂">
+      <span class="fallback" style="display:none;font-size:clamp(2.5rem,5vw,4rem);letter-spacing:.12em;font-weight:700">胭脂</span>
+      <img class="poem-img hand-img" src="assets/poems/yanzhi.png" alt="">
+      <span class="fallback" style="display:none;font-size:clamp(.8rem,1.3vw,1.1rem);opacity:.55;letter-spacing:.1em">欲把西湖比西子 淡妝濃抹總相宜</span>
+      <div class="color-meta">離 ☲ · 火 · 南 · 夏</div><div class="color-hex">#C03B4B</div>
+    </div>
+    <div class="color-page light-text below" data-color="#C0444A" data-name="haitanghong" style="background:#C0444A;z-index:1">
+      <img class="name-img hand-img" src="assets/names/haitanghong.png" alt="海棠紅">
+      <span class="fallback" style="display:none;font-size:clamp(2.5rem,5vw,4rem);letter-spacing:.12em;font-weight:700">海棠紅</span>
+      <img class="poem-img hand-img" src="assets/poems/haitanghong.png" alt="">
+      <span class="fallback" style="display:none;font-size:clamp(.8rem,1.3vw,1.1rem);opacity:.55;letter-spacing:.1em">只恐夜深花睡去 故燒高燭照紅妝</span>
+      <div class="color-meta">離 ☲ · 火 · 南 · 夏</div><div class="color-hex">#C0444A</div>
+    </div>
+  </div>
+  <div class="color-palette" id="palette-chi"></div>
+  <button class="back-btn light-text" data-action="back" style="color:#e8e4dd">←</button>
+</div>
+
+<!-- HUANG -->
+<div class="color-family" id="fam-huang" style="color:rgba(0,0,0,.4)">
+  <div class="page-stack" id="stack-huang">
+    <div class="color-page dark-text current" data-color="#FFBF4D" data-name="ehuang" style="background:#FFBF4D;z-index:3">
+      <img class="name-img hand-img" src="assets/names/ehuang.png" alt="鵝黃">
+      <span class="fallback" style="display:none;font-size:clamp(2.5rem,5vw,4rem);letter-spacing:.12em;font-weight:700">鵝黃</span>
+      <img class="poem-img hand-img" src="assets/poems/ehuang.png" alt="">
+      <span class="fallback" style="display:none;font-size:clamp(.8rem,1.3vw,1.1rem);opacity:.55;letter-spacing:.1em">柳條百尺拂銀塘 且莫深青只淺黃</span>
+      <div class="color-meta">中 · 土 · 長夏</div><div class="color-hex">#FFBF4D</div>
+    </div>
+    <div class="color-page dark-text below" data-color="#B5A043" data-name="qiuxiang" style="background:#B5A043;z-index:1">
+      <img class="name-img hand-img" src="assets/names/qiuxiang.png" alt="秋香">
+      <span class="fallback" style="display:none;font-size:clamp(2.5rem,5vw,4rem);letter-spacing:.12em;font-weight:700">秋香</span>
+      <img class="poem-img hand-img" src="assets/poems/qiuxiang.png" alt="">
+      <span class="fallback" style="display:none;font-size:clamp(.8rem,1.3vw,1.1rem);opacity:.55;letter-spacing:.1em">暗淡輕黃體性柔 情疏跡遠只香留</span>
+      <div class="color-meta">中 · 土 · 長夏</div><div class="color-hex">#B5A043</div>
+    </div>
+    <div class="color-page dark-text below" data-color="#F5C352" data-name="xinghuang" style="background:#F5C352;z-index:1">
+      <img class="name-img hand-img" src="assets/names/xinghuang.png" alt="杏黃">
+      <span class="fallback" style="display:none;font-size:clamp(2.5rem,5vw,4rem);letter-spacing:.12em;font-weight:700">杏黃</span>
+      <img class="poem-img hand-img" src="assets/poems/xinghuang.png" alt="">
+      <span class="fallback" style="display:none;font-size:clamp(.8rem,1.3vw,1.1rem);opacity:.55;letter-spacing:.1em">梅子金黃杏子肥 麥花雪白菜花稀</span>
+      <div class="color-meta">中 · 土 · 長夏</div><div class="color-hex">#F5C352</div>
+    </div>
+  </div>
+  <div class="color-palette" id="palette-huang"></div>
+  <button class="back-btn dark-text" data-action="back" style="color:#2b1b17">←</button>
+</div>
+
+<!-- BAI -->
+<div class="color-family" id="fam-bai" style="color:rgba(0,0,0,.4)">
+  <div class="page-stack" id="stack-bai">
+    <div class="color-page dark-text current" data-color="#D7ECF1" data-name="yuebai" style="background:#D7ECF1;z-index:3">
+      <img class="name-img hand-img" src="assets/names/yuebai.png" alt="月白">
+      <span class="fallback" style="display:none;font-size:clamp(2.5rem,5vw,4rem);letter-spacing:.12em;font-weight:700">月白</span>
+      <img class="poem-img hand-img" src="assets/poems/yuebai.png" alt="">
+      <span class="fallback" style="display:none;font-size:clamp(.8rem,1.3vw,1.1rem);opacity:.55;letter-spacing:.1em">月白風清 如此良夜何</span>
+      <div class="color-meta">兌 ☱ · 金 · 西 · 秋</div><div class="color-hex">#D7ECF1</div>
+    </div>
+    <div class="color-page dark-text below" data-color="#F0EFE8" data-name="shuangse" style="background:#F0EFE8;z-index:1">
+      <img class="name-img hand-img" src="assets/names/shuangse.png" alt="霜色">
+      <span class="fallback" style="display:none;font-size:clamp(2.5rem,5vw,4rem);letter-spacing:.12em;font-weight:700">霜色</span>
+      <img class="poem-img hand-img" src="assets/poems/shuangse.png" alt="">
+      <span class="fallback" style="display:none;font-size:clamp(.8rem,1.3vw,1.1rem);opacity:.55;letter-spacing:.1em">蒹葭蒼蒼 白露為霜</span>
+      <div class="color-meta">兌 ☱ · 金 · 西 · 秋</div><div class="color-hex">#F0EFE8</div>
+    </div>
+    <div class="color-page dark-text below" data-color="#F5F2E6" data-name="gaosu" style="background:#F5F2E6;z-index:1">
+      <img class="name-img hand-img" src="assets/names/gaosu.png" alt="縞素">
+      <span class="fallback" style="display:none;font-size:clamp(2.5rem,5vw,4rem);letter-spacing:.12em;font-weight:700">縞素</span>
+      <img class="poem-img hand-img" src="assets/poems/gaosu.png" alt="">
+      <span class="fallback" style="display:none;font-size:clamp(.8rem,1.3vw,1.1rem);opacity:.55;letter-spacing:.1em">素衣莫起風塵嘆 猶及清明可到家</span>
+      <div class="color-meta">兌 ☱ · 金 · 西 · 秋</div><div class="color-hex">#F5F2E6</div>
+    </div>
+  </div>
+  <div class="color-palette" id="palette-bai"></div>
+  <button class="back-btn dark-text" data-action="back" style="color:#2b1b17">←</button>
+</div>
+
+<!-- HEI -->
+<div class="color-family" id="fam-hei" style="color:rgba(255,255,255,.5)">
+  <div class="page-stack" id="stack-hei">
+    <div class="color-page light-text current" data-color="#622A1D" data-name="xuanse" style="background:#622A1D;z-index:3">
+      <img class="name-img hand-img" src="assets/names/xuanse.png" alt="玄色">
+      <span class="fallback" style="display:none;font-size:clamp(2.5rem,5vw,4rem);letter-spacing:.12em;font-weight:700">玄色</span>
+      <img class="poem-img hand-img" src="assets/poems/xuanse.png" alt="">
+      <span class="fallback" style="display:none;font-size:clamp(.8rem,1.3vw,1.1rem);opacity:.55;letter-spacing:.1em">天地玄黃 宇宙洪荒</span>
+      <div class="color-meta">坎 ☵ · 水 · 北 · 冬</div><div class="color-hex">#622A1D</div>
+    </div>
+    <div class="color-page light-text below" data-color="#2C2C2C" data-name="mose" style="background:#2C2C2C;z-index:1">
+      <img class="name-img hand-img" src="assets/names/mose.png" alt="墨色">
+      <span class="fallback" style="display:none;font-size:clamp(2.5rem,5vw,4rem);letter-spacing:.12em;font-weight:700">墨色</span>
+      <img class="poem-img hand-img" src="assets/poems/mose.png" alt="">
+      <span class="fallback" style="display:none;font-size:clamp(.8rem,1.3vw,1.1rem);opacity:.55;letter-spacing:.1em">我家洗硯池頭樹 朵朵花開淡墨痕</span>
+      <div class="color-meta">坎 ☵ · 水 · 北 · 冬</div><div class="color-hex">#2C2C2C</div>
+    </div>
+    <div class="color-page light-text below" data-color="#8C4356" data-name="jiangzi" style="background:#8C4356;z-index:1">
+      <img class="name-img hand-img" src="assets/names/jiangzi.png" alt="絳紫">
+      <span class="fallback" style="display:none;font-size:clamp(2.5rem,5vw,4rem);letter-spacing:.12em;font-weight:700">絳紫</span>
+      <img class="poem-img hand-img" src="assets/poems/jiangzi.png" alt="">
+      <span class="fallback" style="display:none;font-size:clamp(.8rem,1.3vw,1.1rem);opacity:.55;letter-spacing:.1em">西望瑤池降王母 東來紫氣滿函關</span>
+      <div class="color-meta">坎 ☵ · 水 · 北 · 冬</div><div class="color-hex">#8C4356</div>
+    </div>
+  </div>
+  <div class="color-palette" id="palette-hei"></div>
+  <button class="back-btn light-text" data-action="back" style="color:#e8e4dd">←</button>
+</div>
+
+<!-- NARRATIVE -->
+<div class="narrative-overlay" id="narrOverlay">
+  <div class="narrative-frame nf-top"></div><div class="narrative-frame nf-bottom"></div>
+  <div class="narrative-frame nf-left"></div><div class="narrative-frame nf-right"></div>
+  <div class="narrative-panel" id="narrPanel">
+    <button class="n-close" id="closeBtn">← 返回</button>
+    <div class="n-swatch"></div>
+    <div class="n-color-name" id="nColorName"></div>
+    <div class="n-poem" id="nPoem"></div>
+    <div class="n-tabs" id="nTabs">
+      <button class="n-tab active" data-tab="story">故事</button>
+      <span class="n-tab-sep" aria-hidden="true"></span>
+      <button class="n-tab" data-tab="palette">配色</button>
+    </div>
+    <div class="n-tab-wrap">
+      <div class="n-tab-content active" id="nStory">
+        <div class="n-title" id="nTitle"></div>
+        <div class="n-body" id="nBody"></div>
+      </div>
+      <div class="n-tab-content" id="nPaletteContent">
+        <div class="n-palette-name" id="nPaletteName"></div>
+        <div class="n-palette-cards" id="nPaletteCards"></div>
+      </div>
+    </div>
+    <div class="n-footer">
+      <span class="n-meta" id="nMeta"></span>
+      <span class="n-hex" id="nHex"></span>
+    </div>
+  </div>
+</div>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav" id="mobileNav">
+  <div class="m-items">
+    <button class="m-item" data-family="qing"><span class="m-star" style="background:#8DD4E8"></span>歲星</button>
+    <button class="m-item" data-family="chi"><span class="m-star" style="background:#FF4A42"></span>熒惑</button>
+    <button class="m-item" data-family="huang"><span class="m-star" style="background:#FFBF4D"></span>鎮星</button>
+    <button class="m-item" data-family="bai"><span class="m-star" style="background:#F0EFE8"></span>太白</button>
+    <button class="m-item" data-family="hei"><span class="m-star" style="background:#D7ECF1"></span>辰星</button>
+  </div>
+</nav>
+
+<script src="script.js"></script>
+<div class="credit">韩玮琦</div>
+</body>
+</html>
