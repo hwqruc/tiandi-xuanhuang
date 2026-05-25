@@ -247,6 +247,34 @@ function goToPage(fid, idx) {
   }, 1050);
 }
 
+// ===== TOUCH SWIPE FOR COLOR SWITCHING =====
+var touchStartX = 0, touchStartY = 0, touchStartTime = 0;
+function setupTouchSwipe() {
+  document.addEventListener('touchstart', function(e) {
+    if (!currentFamily || narrOpen || inkBlooming || enteringFamily) return;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    touchStartTime = Date.now();
+  }, {passive: true});
+
+  document.addEventListener('touchend', function(e) {
+    if (!currentFamily || narrOpen || inkBlooming || enteringFamily) return;
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    var dy = e.changedTouches[0].clientY - touchStartY;
+    var dt = Date.now() - touchStartTime;
+    // Require horizontal swipe: faster than 30px and more horizontal than vertical
+    if (Math.abs(dx) < 30 || Math.abs(dx) < Math.abs(dy) || dt > 800) return;
+    var fid = currentFamily;
+    var total = pageCount[fid];
+    if (!total) return;
+    var dir = dx < 0 ? 1 : -1;
+    var newIdx = currentPageIdx[fid] + dir;
+    if (newIdx >= 0 && newIdx < total) {
+      goToPage(fid, newIdx);
+    }
+  });
+}
+
 // ===== KEYBOARD NAVIGATION =====
 function setupKeyboard(fid) {
   document.addEventListener('keydown', function(e) {
@@ -467,6 +495,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   setupImageFallbacks();
   initPageStacks();
+  setupTouchSwipe();
   initStars();
   twinkleStars();
 
